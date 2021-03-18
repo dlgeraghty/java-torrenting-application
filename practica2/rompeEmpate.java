@@ -1,22 +1,27 @@
-package main;
+package p2;
 
-import main.ops;
+import p2.ops;
 
 public class rompeEmpate{
 	
 	public static void main(String args[]){
-		int N = 1000;
+		int N = 10;
 
 		ops a = new ops();
+		bakery lock = new bakery(N);
 
-		Thread p1 = new Thread(new rompeEmpate().new SC(a));
-		Thread p2 = new Thread(new rompeEmpate().new SC(a));
-
-		try{
-			p1.join();
-			p2.join();
-		}catch(InterruptedException e){
-			e.printStackTrace();
+		Thread[] thread_pool = new Thread[N];
+		for(int i = 0; i < N; i++) {
+			thread_pool[i] =  new Thread(new rompeEmpate().new SC(a, lock, i));
+			thread_pool[i].start();
+		} 	
+		for(int i = 0; i < N; i++) {
+			try {
+				thread_pool[i].join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		System.out.println(a.getR());
@@ -25,18 +30,24 @@ public class rompeEmpate{
 	private class SC implements Runnable{
 
 		ops a;
+		bakery l;
+		int i;
 
-		public SC(ops a){
+		public SC(ops a, bakery lock, int i){
 			this.a = a;
+			this.l = lock;
+			this.i = i;
 		}
 
 		public void run(){
-			for( long i = 0; i < 1000000; i++){
-				for( long j = 0; j < 1000000; j++){
-					a.decremento();
-					a.incremento();
-				}
-			}
+			l.acquireLock(i);
+			a.decremento();
+			l.releaseLock(i);
+
+			l.acquireLock(i);
+			a.incremento();
+			l.releaseLock(i);
+				
 		}
 		
 	}
