@@ -31,4 +31,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Compile the project
-        run: javac *.java
+        run: |
+                javac client.java
+                javac server.java
