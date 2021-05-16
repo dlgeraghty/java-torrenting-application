@@ -2,13 +2,13 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-public class ClientHandler implements Runnable{
+public class OyenteCliente implements Runnable{
 	private Socket client;
 	private BufferedReader in;
 	private PrintWriter out;
-	private ArrayList<ClientHandler> clients;
+	private ArrayList<OyenteCliente> clients;
 
-	public ClientHandler(Socket clientSocket, ArrayList<ClientHandler> clients) throws IOException{
+	public OyenteCliente(Socket clientSocket, ArrayList<OyenteCliente> clients) throws IOException{
 		this.client = clientSocket;
 		this.clients = clients;
 		in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -46,7 +46,7 @@ public class ClientHandler implements Runnable{
 	}
 
 	private void outToAll(String msg){
-		for(ClientHandler c: clients){
+		for(OyenteCliente c: clients){
 			c.out.println(msg);
 		}
 	}

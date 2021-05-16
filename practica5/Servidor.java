@@ -3,9 +3,9 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class server{
+public class Servidor{
 
-	private static ArrayList<ClientHandler> clients = new ArrayList<>();
+	private static ArrayList<OyenteCliente> clients = new ArrayList<>();
 	private static final int PORT = 8080;
 	private static ExecutorService pool = Executors.newFixedThreadPool(4);
 
@@ -18,7 +18,7 @@ public class server{
 			System.out.println(" Esperando a que se conecte un cliente...");
 			Socket client = listener.accept();
 			System.out.println(" Conexion establecida con un cliente");
-			ClientHandler clientThread = new ClientHandler(client, clients);
+			OyenteCliente clientThread = new OyenteCliente(client, clients);
 			clients.add(clientThread);
 			pool.execute(clientThread);
 

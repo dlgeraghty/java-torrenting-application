@@ -2,11 +2,15 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-public class client{
+public class Cliente{
+
+	private String username;
+	private String ip;
+
 	public static void main(String[] args) throws IOException{
 		Socket s = new Socket("localhost", 8080);
 
-		ServerConnection serverConn = new ServerConnection(s);
+		OyenteServidor serverConn = new OyenteServidor(s);
 
 		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(s.getOutputStream(), true);

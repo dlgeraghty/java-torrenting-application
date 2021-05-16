@@ -2,11 +2,11 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class ServerConnection implements Runnable{
+public class OyenteServidor implements Runnable{
 	private Socket server;
 	private BufferedReader in;
 
-	public ServerConnection(Socket s) throws IOException{
+	public OyenteServidor(Socket s) throws IOException{
 		this.server = s;
 		in = new BufferedReader(new InputStreamReader(server.getInputStream()));
 	}
