@@ -16,8 +16,22 @@ public class OyenteServidor implements Runnable{
 			try{
 				while(true){
 					serverResponse = in.readLine();
-					if (serverResponse == null) break;
-					System.out.println("Server says: " + serverResponse);
+					if(serverResponse.equals("MENSAJE_CONFIRMACION_CONEXION")){
+						//imprimir conexion establecida por standard output
+						System.out.println("conexion establecida");
+					}
+					else if(serverResponse.equals("MENSAJE_CONFIRMACION_LISTA_USUARIOS")){
+						//imprimir lista usuarios por standard output
+					}
+					else if(serverResponse.equals("MENSAJE_EMITIR_FICHERO")){
+						//(nos llega nombre de cliente C1 e informacion pedida 3)
+						//enviar MENSAJE_PREPARADO_CIENTESERVIDOR
+						//crear proceso EMISOR y esperar en accept la conexion
+					}
+					else if(serverResponse.equals("MENSAJE_PREPARADO_SERVIDORCLIENTE")){
+						//imprimir adios por standard output
+						System.out.println("adios");
+					}
 				}
 			}catch (IOException e){
 				e.printStackTrace();

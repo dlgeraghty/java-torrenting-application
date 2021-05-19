@@ -20,15 +20,31 @@ public class OyenteCliente implements Runnable{
 		try{
 			while(true){
 				String request = in.readLine();
-				if(request.contains("name")){
-					out.println(getRandomName());
-				}else if (request.startsWith("say")){
-					int firstSpace = request.indexOf(" ");
-					if (firstSpace != -1){
-						outToAll(request.substring(firstSpace+1));
-					}
-				}else{
-					out.println("Type 'tell me a name' to get a random name");
+				if(request.equals("MENSAJE_CONEXION")){
+					//guardar informacion del usuario
+					//envio mensaje confirmacion conexion fout
+				}
+				else if( request.equals("MENSAJE_LISTA_USUARIOS")){
+					//crear un mensaje con la informacion de usuarios en sistema
+					//envio mensaje confirmacion lista usuarios fout
+					//for(OyenteCliente c: clients){
+					//	println(c.username);
+					//}
+				}
+				else if( request.equals("MENSAJE_CERRAR_CONEXION")){
+					//eliminar inforacion del usuario
+					//envio mensaje confirmacion cerrar conexion fout
+				}
+				else if( request.equals("MENSAJE_PEDIR_FICHERO")){
+					//buscar usuario que contiene el fichero y obtener fout2
+					//envio mensaje MENSAJE_EMITIR_FICHERO por fout2
+					//for(OyenteCliente c: clients){
+					//	println(c.username);
+					//}
+				}
+				else if( request.equals("MENSAJE_PREPARADO_CLIENTESERVIDOR")){
+					//buscar fout1 (flujo del cliente al que hay que enviar la informacion)
+					//envio fout1 mensaje MENSAJE_PREPARADO_SERVIDORCLIENTE
 				}
 			}
 		} catch(IOException e){
@@ -42,16 +58,5 @@ public class OyenteCliente implements Runnable{
 				e.printStackTrace();
 			}
 		}
-
-	}
-
-	private void outToAll(String msg){
-		for(OyenteCliente c: clients){
-			c.out.println(msg);
-		}
-	}
-
-	private String getRandomName(){
-		return "Pepe";
 	}
 }
