@@ -19,13 +19,10 @@ public class Cliente{
 
 		//crear un nuevo OyenteServidor para leer el socket
 		OyenteServidor serverConn = new OyenteServidor(s);
+		PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+		new Thread(serverConn).start();
 
 		//enviar MENSAJE_CONEXION
-		//...
-
-		PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-
-		new Thread(serverConn).start();
 
 		//establecer menu con usuario
 		while(true){
