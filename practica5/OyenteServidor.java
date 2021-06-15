@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class OyenteServidor implements Runnable{
+public class OyenteServidor extends Thread{
 	private Socket server;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
@@ -39,5 +39,9 @@ public class OyenteServidor implements Runnable{
 			}
 		}
 	}
+
+	public void listUsers(){};
+	public void requestFile(String f){};
+	public void closeConnection(){};
 }
 

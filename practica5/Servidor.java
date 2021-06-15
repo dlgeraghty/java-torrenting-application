@@ -17,7 +17,7 @@ public class Servidor{
 		while(true){
 			System.out.println(" Esperando a que se conecte un cliente...");
 			Socket client = listener.accept();
-			OyenteCliente clientThread = new OyenteCliente(client, clients);
+			OyenteCliente clientThread = new OyenteCliente(client);
 			clients.add(clientThread);
 			pool.execute(clientThread);
 		}

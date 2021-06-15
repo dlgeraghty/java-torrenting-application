@@ -1,3 +1,4 @@
+package practica;
 import java.io.Serializable;
 
 public class Mensaje implements Serializable {
@@ -13,8 +14,8 @@ public class Mensaje implements Serializable {
 	public String getTipo(){
 		return this.tipo;
 	}
-	public void getOrigen();
-	public void getDestino();
+	public void getOrigen(){};
+	public void getDestino(){};
 
 	public Object getDatos(){
 		return this.datos;

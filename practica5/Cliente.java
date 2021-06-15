@@ -7,7 +7,7 @@ public class Cliente{
 	private static String username;
 	private static String ip;
 	private static String fileList[];
-	private boolean fin = false;
+	private static boolean fin = false;
 
 	public static void main(String[] args) throws IOException{
 
@@ -26,7 +26,7 @@ public class Cliente{
 		new Thread(serverConn).start();
 
 		//cargar los archivos de este usuario:
-		File file = new File("./Archivos/" + username + "/");
+		File files = new File("./Archivos/" + username + "/");
 		fileList = files.list();
 
 		//enviar MENSAJE_CONEXION
@@ -42,7 +42,7 @@ public class Cliente{
 			else if(command.equals("2")){
 				System.out.println("Que archivo quieres?");
 				String f = keyboard.readLine();
-				serverConn.reequestFile(f);
+				serverConn.requestFile(f);
 			}
 			else if(command.equals("3")){
 				serverConn.closeConnection();
