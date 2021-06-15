@@ -43,5 +43,14 @@ public class OyenteServidor extends Thread{
 	public void listUsers(){};
 	public void requestFile(String f){};
 	public void closeConnection(){};
+	public void stablishConnection(String s){
+
+		try{
+			outputStream.writeObject(new Mensaje("NUEVA_CONEXION", s));
+			outputStream.flush();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
 }
 

@@ -30,6 +30,7 @@ public class Cliente{
 		fileList = files.list();
 
 		//enviar MENSAJE_CONEXION
+		serverConn.stablishConnection(username);
 
 		//establecer menu con usuario
 		while(!fin){
