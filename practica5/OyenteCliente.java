@@ -1,7 +1,6 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
-import practica.Mensaje;
 
 public class OyenteCliente extends Thread{
 	private Socket client;
@@ -46,18 +45,16 @@ public class OyenteCliente extends Thread{
 					//buscar fout1 (flujo del cliente al que hay que enviar la informacion)
 					//envio fout1 mensaje MENSAJE_PREPARADO_SERVIDORCLIENTE
 				}
-			}catch (IOException e){
+			
+
+				this.ois.close();
+				this.oos.close();
+				this.client.close();
+			}catch(IOException e){
 				e.printStackTrace();
 			}catch (ClassNotFoundException e){
 				e.printStackTrace();
 			}
-		}
-		try{
-			this.ois.close();
-			this.oos.close();
-			this.client.close();
-		}catch(IOException e){
-			e.printStackTrace();
 		}
 	}
 }

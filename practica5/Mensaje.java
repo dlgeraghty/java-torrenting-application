@@ -1,4 +1,4 @@
-package practica;
+
 import java.io.Serializable;
 
 public class Mensaje implements Serializable {
