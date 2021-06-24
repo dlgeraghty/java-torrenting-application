@@ -25,7 +25,6 @@ public class OyenteCliente extends Thread{
 		while(conexion){
 			try{
 				Mensaje m = (Mensaje) this.ois.readObject();
-				String fileName = m.getDatos().toString();
 				if(m.getTipo().equals("MENSAJE_CONEXION")){
 					//guardar informacion del usuario
 					//envio mensaje confirmacion conexion fout
@@ -49,10 +48,12 @@ public class OyenteCliente extends Thread{
 					//y en base a eso lo tenemos que mandar por el mensaje
 					//Tipo_de_archivo archivo = Tipo_de_arhivo.read(f);
 					//por ejemplo podriamos hacer:
+					/*
 					BufferedImage imagen = ImageIO.read(new File("./Files/" + Cliente.getUsername() + "/" + fileName));
 					this.oos.writeObject(new Mensaje("MENSAJE_EMITIR_FICHERO", imagen));
 					sleep(200);
 					conexion = false;
+					*/
 				}
 				else if( m.getTipo().equals("MENSAJE_PREPARADO_CLIENTESERVIDOR")){
 					//buscar fout1 (flujo del cliente al que hay que enviar la informacion)
@@ -60,17 +61,25 @@ public class OyenteCliente extends Thread{
 				}
 			
 
-				this.ois.close();
-				this.oos.close();
-				this.client.close();
+				
 			}catch(IOException e){
 				e.printStackTrace();
 			}catch (ClassNotFoundException e){
 				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			
+			
+			
+
+		}
+		
+		try {
+			this.oos.close();
+			this.ois.close();
+			this.client.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
