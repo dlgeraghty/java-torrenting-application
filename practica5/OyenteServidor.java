@@ -24,7 +24,7 @@ public class OyenteServidor extends Thread{
 				}
 				else if(m.getTipo().equals("MENSAJE_CONFIRMACION_LISTA_USUARIOS")){
 					//imprimir lista usuarios por standard output
-					Client.printUsers();
+					//Cliente.printUsers();
 				}
 				else if(m.getTipo().equals("MENSAJE_EMITIR_FICHERO")){
 					//(nos llega nombre de cliente C1 e informacion pedida 3)

@@ -35,17 +35,19 @@ public class Servidor{
 		}catch(Exception e){
 	         e.printStackTrace();
 	     
-	         ServerSocket listener = new ServerSocket(PORT);
+	         
+		}
+		
+		ServerSocket listener = new ServerSocket(PORT);
 
-			while(true){
-				System.out.println("Servidor preparado \n Esperando a que se conecte un cliente...");
-				Socket client = listener.accept();
-				//TODO: Habria que pasarle los monitores tambien al OyenteCliente:
-				OyenteCliente clientThread = new OyenteCliente(client);
-			}
+		while(true){
+			System.out.println("Servidor preparado \n Esperando a que se conecte un cliente...");
+			Socket client = listener.accept();
+			//TODO: Habria que pasarle los monitores tambien al OyenteCliente:
+			OyenteCliente clientThread = new OyenteCliente(client);
+			clientThread.start();
 		}
 	}
-	
 	
 	public static ArrayList<String> getUsers() {
 		return users;
