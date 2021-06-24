@@ -4,17 +4,17 @@ import java.util.*;
 
 public class OyenteServidor extends Thread{
 	private Socket server;
-	private ObjectInputStream inputStream;
+	private static ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
 
 	public OyenteServidor(Socket s) throws IOException{
 		this.server = s;
-		this.inputStream = new ObjectInputStream(server.getInputStream());
-		this.outputStream = new ObjectOutputStream(server.getOutputStream());
+		this.inputStream = new ObjectInputStream(s.getInputStream());
+		this.outputStream = new ObjectOutputStream(s.getOutputStream());
 	}
 
 	public void run() {
-		String serverResponse = null;
+		
 		while(true){
 			try{
 				Mensaje m = (Mensaje) this.inputStream.readObject();
@@ -50,7 +50,7 @@ public class OyenteServidor extends Thread{
 	public void stablishConnection(String s){
 
 		try{
-			outputStream.writeObject(new Mensaje("MENSAJE_CONFIRMACION_CONEXION", s));
+			outputStream.writeObject(new Mensaje("MENSAJE_CONEXION", s));
 			outputStream.flush();
 		}catch(IOException e){
 			e.printStackTrace();

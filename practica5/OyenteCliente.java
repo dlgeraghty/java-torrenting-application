@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 
 public class OyenteCliente extends Thread{
 	private Socket client;
-	ObjectOutputStream oos;
-	ObjectInputStream ois;
+	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
 	private ArrayList<OyenteCliente> clients;
 
 	public OyenteCliente(Socket clientSocket) throws IOException{
@@ -27,7 +27,9 @@ public class OyenteCliente extends Thread{
 				Mensaje m = (Mensaje) this.ois.readObject();
 				if(m.getTipo().equals("MENSAJE_CONEXION")){
 					//guardar informacion del usuario
+					Servidor.addUser((String) m.getDatos());
 					//envio mensaje confirmacion conexion fout
+					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_CONEXION"));
 				}
 				else if( m.getTipo().equals("MENSAJE_LISTA_USUARIOS")){
 					//crear un mensaje con la informacion de usuarios en sistema

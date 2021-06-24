@@ -48,10 +48,14 @@ public class Servidor{
 		ServerSocket listener = new ServerSocket(Integer.parseInt(PORT));
 
 		System.out.println("Servidor preparado \n Esperando a que se conecte un cliente...");
+		
+		//crear un ObjectOutputStream para pasarle al OyenteCliente
+		
 		while(true){
 			
 			Socket client = listener.accept();
 			//TODO: Habria que pasarle los monitores tambien al OyenteCliente:
+			
 			OyenteCliente clientThread = new OyenteCliente(client);
 			clientThread.start();
 		}
