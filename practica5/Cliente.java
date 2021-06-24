@@ -6,6 +6,7 @@ public class Cliente{
 
 	private static String username;
 	private static String ip;
+	private static String port;
 	private static String fileList[];
 	private static boolean fin = false;
 
@@ -15,9 +16,15 @@ public class Cliente{
 		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println(" Cual es tu nombre de usuario " );
 		username = keyboard.readLine(); 
+		
+		System.out.println(" En que ip esta el servidor? " );
+		ip = keyboard.readLine(); 
+		
+		System.out.println(" En que puerto esta el servidor? " );
+		port = keyboard.readLine();
 
 		//crear el socker con el servidor
-		Socket s = new Socket("localhost", 8080);
+		Socket s = new Socket( ip, Integer.parseInt(port));
 
 		//crear un nuevo OyenteServidor para leer el socket
 		OyenteServidor serverConn = new OyenteServidor(s);

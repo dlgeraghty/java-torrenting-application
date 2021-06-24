@@ -6,11 +6,14 @@ import java.util.concurrent.*;
 public class Servidor{
 
 	private static ArrayList<String> users;
-	private static final int PORT = 8080;
+	private static String PORT;
 	static String filename;
 	private static int nextPort;
 	
 	public static void main(String[] args) throws IOException{
+		
+		
+		
 		users = new ArrayList<String>();
 		//TODO: Crear los monitores para asegurar concurrencia:
 		//TODO: MonitorDelSocket mSocket = new MonitorDelSocket();
@@ -38,7 +41,11 @@ public class Servidor{
 	         
 		}
 		
-		ServerSocket listener = new ServerSocket(PORT);
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println(" En que puerto deberia escuchar? " );
+		PORT = keyboard.readLine(); 
+		
+		ServerSocket listener = new ServerSocket(Integer.parseInt(PORT));
 
 		while(true){
 			System.out.println("Servidor preparado \n Esperando a que se conecte un cliente...");
