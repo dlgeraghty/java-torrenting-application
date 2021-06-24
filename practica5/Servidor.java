@@ -47,4 +47,8 @@ public class Servidor{
 	public static ArrayList<String> getUsers() {
 		return users;
 	}
+	
+	public static void addUser(String s) {
+		users.add(s);
+	}
 }
