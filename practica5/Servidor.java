@@ -47,8 +47,9 @@ public class Servidor{
 		
 		ServerSocket listener = new ServerSocket(Integer.parseInt(PORT));
 
+		System.out.println("Servidor preparado \n Esperando a que se conecte un cliente...");
 		while(true){
-			System.out.println("Servidor preparado \n Esperando a que se conecte un cliente...");
+			
 			Socket client = listener.accept();
 			//TODO: Habria que pasarle los monitores tambien al OyenteCliente:
 			OyenteCliente clientThread = new OyenteCliente(client);

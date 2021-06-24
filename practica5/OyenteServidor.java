@@ -50,7 +50,7 @@ public class OyenteServidor extends Thread{
 	public void stablishConnection(String s){
 
 		try{
-			outputStream.writeObject(new Mensaje("NUEVA_CONEXION", s));
+			outputStream.writeObject(new Mensaje("MENSAJE_CONFIRMACION_CONEXION", s));
 			outputStream.flush();
 		}catch(IOException e){
 			e.printStackTrace();
