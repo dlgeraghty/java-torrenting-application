@@ -17,10 +17,12 @@ public class Servidor{
 		//TODO: MonitorDeArchivos mArchivos = new MonitorDeArchivos();
 
 		try {
+			/*
 			File archivo = new File ("C:\\users.txt");
 			FileReader fr = new FileReader (archivo);
 			BufferedReader br = new BufferedReader(fr);
 			String linea;
+			
 			
 			
 			while((linea=br.readLine())!=null) {
@@ -28,6 +30,7 @@ public class Servidor{
 			}
 			
 			fr.close();
+			*/
 			
 		}catch(Exception e){
 	         e.printStackTrace();
@@ -35,7 +38,7 @@ public class Servidor{
 	         ServerSocket listener = new ServerSocket(PORT);
 
 			while(true){
-				System.out.println(" Esperando a que se conecte un cliente...");
+				System.out.println("Servidor preparado \n Esperando a que se conecte un cliente...");
 				Socket client = listener.accept();
 				//TODO: Habria que pasarle los monitores tambien al OyenteCliente:
 				OyenteCliente clientThread = new OyenteCliente(client);
