@@ -2,6 +2,10 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
 public class OyenteCliente extends Thread{
 	private Socket client;
 	ObjectOutputStream oos;
@@ -43,11 +47,10 @@ public class OyenteCliente extends Thread{
 					//y en base a eso lo tenemos que mandar por el mensaje
 					//Tipo_de_archivo archivo = Tipo_de_arhivo.read(f);
 					//por ejemplo podriamos hacer:
-					BufferedImage imagen = ImageIO.read(new File("./Files/" + Client.getUsername() + "/" + fileName)
+					BufferedImage imagen = ImageIO.read(new File("./Files/" + Client.getUsername() + "/" + fileName));
 					this.oos.writeObject(new Mensaje("MENSAJE_EMITIR_FICHERO", imagen));
 					sleep(200);
 					conexion = false;
-					break;
 				}
 				else if( m.getTipo().equals("MENSAJE_PREPARADO_CLIENTESERVIDOR")){
 					//buscar fout1 (flujo del cliente al que hay que enviar la informacion)
