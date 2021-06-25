@@ -27,17 +27,22 @@ public class Cliente{
 		Socket s = new Socket( ip, Integer.parseInt(port));
 
 		//crear un nuevo OyenteServidor para leer el socket
-		OyenteServidor serverConn = new OyenteServidor(s);
-		serverConn.start();
-		PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-		new Thread(serverConn).start();
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());;
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		OyenteServidor serverConn = new OyenteServidor(s, oos, ois);
+		
+		//PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+	
 
 		//cargar los archivos de este usuario:
 		File files = new File("./Archivos/" + username + "/");
 		fileList = files.list();
 
 		//enviar MENSAJE_CONEXION
+		serverConn.start();
+		//new Thread(serverConn).start();
 		serverConn.stablishConnection(username);
+		
 
 		//establecer menu con usuario
 		while(!fin){
@@ -59,7 +64,7 @@ public class Cliente{
 				System.out.println("Opcion no valida");
 			}
 
-			out.println(command);
+			//out.println(command);
 		}
 
 		s.close();

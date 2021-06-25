@@ -7,17 +7,19 @@ public class OyenteServidor extends Thread{
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
 
-	public OyenteServidor(Socket s) throws IOException{
+	public OyenteServidor(Socket s, ObjectOutputStream oos, ObjectInputStream ois) throws IOException{
 		this.server = s;
-		this.inputStream = new ObjectInputStream(s.getInputStream());
-		this.outputStream = new ObjectOutputStream(s.getOutputStream());
+		this.inputStream = ois;
+		this.outputStream = oos;
 	}
 
 	public void run() {
 		
 		while(true){
 			try{
+				System.out.println("casi cojo el mensaje");
 				Mensaje m = (Mensaje) this.inputStream.readObject();
+				System.out.println("Cojo");
 				if(m.getTipo().equals("MENSAJE_CONFIRMACION_CONEXION")){
 					//imprimir conexion establecida por standard output
 					System.out.println("conexion establecida");
@@ -52,7 +54,7 @@ public class OyenteServidor extends Thread{
 
 		try{
 			outputStream.writeObject(new Mensaje("MENSAJE_CONEXION", s));
-			outputStream.flush();
+			//outputStream.flush();
 		}catch(IOException e){
 			e.printStackTrace();
 		}

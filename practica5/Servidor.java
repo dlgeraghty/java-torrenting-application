@@ -12,7 +12,7 @@ public class Servidor{
 	
 	public static void main(String[] args) throws IOException{
 		
-		
+		Servidor serv = new Servidor();
 		
 		users = new ArrayList<String>();
 		//TODO: Crear los monitores para asegurar concurrencia:
@@ -56,7 +56,7 @@ public class Servidor{
 			Socket client = listener.accept();
 			//TODO: Habria que pasarle los monitores tambien al OyenteCliente:
 			
-			OyenteCliente clientThread = new OyenteCliente(client);
+			OyenteCliente clientThread = new OyenteCliente(client, serv);
 			clientThread.start();
 		}
 	}

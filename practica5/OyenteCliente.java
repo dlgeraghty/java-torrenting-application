@@ -10,26 +10,38 @@ import java.awt.image.BufferedImage;
 
 public class OyenteCliente extends Thread{
 	private Socket client;
+	private Servidor serv;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 	private ArrayList<OyenteCliente> clients;
 
-	public OyenteCliente(Socket clientSocket) throws IOException{
+	public OyenteCliente(Socket clientSocket, Servidor serv) throws IOException{
 		this.client = clientSocket;
-		this.oos = new ObjectOutputStream(clientSocket.getOutputStream());
-		this.ois = new ObjectInputStream(clientSocket.getInputStream());
+		this.serv = serv;
+		
 	}
 
 	public void run(){
 		boolean conexion = true;
+		
+		try {
+			this.ois = new ObjectInputStream(client.getInputStream());
+			this.oos = new ObjectOutputStream(client.getOutputStream());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		while(conexion){
 			try{
 				Mensaje m = (Mensaje) this.ois.readObject();
 				if(m.getTipo().equals("MENSAJE_CONEXION")){
 					//guardar informacion del usuario
-					Servidor.addUser((String) m.getDatos());
+					serv.addUser((String) m.getDatos());
 					//envio mensaje confirmacion conexion fout
+					System.out.println("envio confirmacion");
 					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_CONEXION"));
+					oos.flush();
 				}
 				else if( m.getTipo().equals("MENSAJE_LISTA_USUARIOS")){
 					//crear un mensaje con la informacion de usuarios en sistema
