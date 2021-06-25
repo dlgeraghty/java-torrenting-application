@@ -66,6 +66,7 @@ public class Servidor{
 	}
 	
 	public static void addUser(String s) {
+		System.out.println("meto a " + s + " en la lista de usuarios");
 		users.add(s);
 	}
 }

@@ -9,12 +9,12 @@ public class OyenteServidor extends Thread{
 
 	public OyenteServidor(Socket s) throws IOException{
 		this.server = s;
-		//this.inputStream = new ObjectInputStream(s.getInputStream());
+		this.inputStream = new ObjectInputStream(s.getInputStream());
 		this.outputStream = new ObjectOutputStream(s.getOutputStream());
 	}
 
 	public void run() {
-		/*
+		
 		while(true){
 			try{
 				Mensaje m = (Mensaje) this.inputStream.readObject();
@@ -42,7 +42,7 @@ public class OyenteServidor extends Thread{
 				e.printStackTrace();
 			}
 		}
-		*/
+		
 	}
 
 	public void listUsers(){};
