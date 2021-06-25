@@ -40,10 +40,10 @@ public class Servidor{
 	     
 	         
 		}
-		
-		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+
+		Scanner keyboard = new Scanner(System.in);
 		System.out.println(" En que puerto deberia escuchar? " );
-		PORT = keyboard.readLine(); 
+		PORT = keyboard.nextLine(); 
 		
 		ServerSocket listener = new ServerSocket(Integer.parseInt(PORT));
 

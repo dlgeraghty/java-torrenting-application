@@ -69,10 +69,6 @@ public class OyenteCliente extends Thread{
 			}catch (ClassNotFoundException e){
 				e.printStackTrace();
 			}
-			
-			
-			
-
 		}
 		
 		try {

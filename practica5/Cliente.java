@@ -13,15 +13,15 @@ public class Cliente{
 	public static void main(String[] args) throws IOException{
 
 		//leer el nombre del teclado
-		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		Scanner keyboard = new Scanner(System.in);
 		System.out.println(" Cual es tu nombre de usuario " );
-		username = keyboard.readLine(); 
+		username = keyboard.nextLine(); 
 		
 		System.out.println(" En que ip esta el servidor? " );
-		ip = keyboard.readLine(); 
+		ip = keyboard.nextLine(); 
 		
 		System.out.println(" En que puerto esta el servidor? " );
-		port = keyboard.readLine();
+		port = keyboard.nextLine();
 
 		//crear el socker con el servidor
 		Socket s = new Socket( ip, Integer.parseInt(port));
@@ -42,14 +42,14 @@ public class Cliente{
 		//establecer menu con usuario
 		while(!fin){
 			System.out.println("Menu \n 1. Consultar lista usuarios \n 2. Pedir fichero \n 3. Salir ");
-			String command = keyboard.readLine();
+			String command = keyboard.nextLine();
 
 			if(command.equals("1")){
 				serverConn.listUsers();
 			}
 			else if(command.equals("2")){
 				System.out.println("Que archivo quieres?");
-				String f = keyboard.readLine();
+				String f = keyboard.nextLine();
 				serverConn.requestFile(f);
 			}
 			else if(command.equals("3")){

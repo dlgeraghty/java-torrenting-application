@@ -4,17 +4,17 @@ import java.util.*;
 
 public class OyenteServidor extends Thread{
 	private Socket server;
-	private static ObjectInputStream inputStream;
+	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
 
 	public OyenteServidor(Socket s) throws IOException{
 		this.server = s;
-		this.inputStream = new ObjectInputStream(s.getInputStream());
+		//this.inputStream = new ObjectInputStream(s.getInputStream());
 		this.outputStream = new ObjectOutputStream(s.getOutputStream());
 	}
 
 	public void run() {
-		
+		/*
 		while(true){
 			try{
 				Mensaje m = (Mensaje) this.inputStream.readObject();
@@ -42,6 +42,7 @@ public class OyenteServidor extends Thread{
 				e.printStackTrace();
 			}
 		}
+		*/
 	}
 
 	public void listUsers(){};
