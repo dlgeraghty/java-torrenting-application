@@ -12,8 +12,8 @@ public class Mensaje implements Serializable {
 		this.datos = datos;
 	}
 
-	public Mensaje(String string) {
-		this.tipo = string;
+	public Mensaje(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public String getTipo(){

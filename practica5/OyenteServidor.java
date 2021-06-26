@@ -16,7 +16,9 @@ public class OyenteServidor extends Thread{
 
 	public void run() {
 		
-		while(true){
+		Boolean conexion = true;
+		
+		while(conexion){
 			try{
 				
 				Mensaje m = (Mensaje) this.ois.readObject();
@@ -49,6 +51,11 @@ public class OyenteServidor extends Thread{
 				else if(m.getTipo().equals("MENSAJE_CONFIRMACION_DESCONEXION")){
 					//imprimir adios por standard output
 					System.out.println("Cliente " + m.getDatos() + "desconectado");
+					conexion = false;
+					this.oos.close();
+					this.ois.close();
+					this.server.close();
+					
 				}
 			}catch(IOException e){
 				e.printStackTrace();

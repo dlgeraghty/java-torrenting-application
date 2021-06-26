@@ -40,14 +40,13 @@ public class Cliente{
 
 		//enviar MENSAJE_CONEXION
 		serverConn.start();
-		//new Thread(serverConn).start();
 		serverConn.stablishConnection(username);
-		//oos.writeObject(new Mensaje("MENSAJE_CONEXION", username));
 		
-		while(fin);
+		fin = false;
+		
 		//establecer menu con usuario
 		while(!fin){
-			System.out.println("Menu \n 1. Consultar lista usuarios \n 2. Pedir fichero \n 3. Añadir fichero \n 4. Salir ");
+			System.out.println("Menu \n 1. Consultar lista usuarios \n 2. Pedir fichero \n 3. Aï¿½adir fichero \n 4. Salir ");
 			String command = keyboard.nextLine();
 
 			if(command.equals("1")){
@@ -59,13 +58,14 @@ public class Cliente{
 				serverConn.requestFile(f);
 			}
 			/*else if(command.equals("3")){
-				System.out.println("Que archivo quieres añadir?");
+				System.out.println("Que archivo quieres aï¿½adir?");
 				String f = keyboard.nextLine();
 				fileList.ad
 			}*/
 			else if(command.equals("4")){
 				serverConn.closeConnection(username);
-				fin();
+				//esto no lo podemos hacer por que rompe el socket (hay que poner un lock esperando que termine la operacion anterior)
+				//fin();
 			}
 			else{
 				System.out.println("Opcion no valida");

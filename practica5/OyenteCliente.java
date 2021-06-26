@@ -58,9 +58,9 @@ public class OyenteCliente extends Thread{
 				else if( m.getTipo().equals("MENSAJE_CERRAR_CONEXION")){
 					//eliminar inforacion del usuario
 					serv.deleteUser((String) m.getDatos());
+					//envio mensaje confirmacion cerrar conexion fout
 					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_DESCONEXION", m.getDatos()));
 					
-					//envio mensaje confirmacion cerrar conexion fout
 				}
 				else if( m.getTipo().equals("MENSAJE_PEDIR_FICHERO")){
 					//buscar usuario que contiene el fichero y obtener fout2

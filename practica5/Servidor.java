@@ -72,6 +72,7 @@ public class Servidor{
 
 	public void deleteUser(String s) {
 		// TODO Auto-generated method stub
+		System.out.println("quito a " + s + " de la lista de usuarios");
 		users.remove(s);
 	}
 }
