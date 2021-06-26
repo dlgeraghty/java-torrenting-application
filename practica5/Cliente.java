@@ -10,6 +10,7 @@ public class Cliente{
 	private static String ip;
 	private static String port;
 	private static ArrayList<String> fileList;
+	private static String f;
 	private static boolean fin = true;
 
 	public static void main(String[] args) throws IOException{
@@ -65,7 +66,7 @@ public class Cliente{
 			}
 			else if(command.equals("2")){
 				System.out.println("Que archivo quieres?");
-				String f = keyboard.nextLine();
+				f = keyboard.nextLine();
 				serverConn.requestFile(f);
 			}
 			
@@ -103,5 +104,12 @@ public class Cliente{
 
 	public static void getFile(int i){
 		//abrir un socket nuevo para enviar un archivo 
+		try {
+			
+			(new Receptor( new Socket(ip, i), f)).start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

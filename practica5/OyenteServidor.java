@@ -6,6 +6,7 @@ public class OyenteServidor extends Thread{
 	private Socket server;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
+	private String requested_file;
 	
 	
 	public OyenteServidor(Socket s, ObjectOutputStream oos, ObjectInputStream ois) throws IOException{
@@ -50,11 +51,13 @@ public class OyenteServidor extends Thread{
 						Socket s = ss.accept();
 						(new Emisor(s)).start();
 					}
-					
 				}
 				else if(m.getTipo().equals("MENSAJE_PREPARADO_SERVIDORCLIENTE")){
-					//imprimir adios por standard output
-					System.out.println("adios");
+					//(llega direccion Ip y puerto del propietario de fichero)
+				    //crear proceso RECEPTOR
+					int port = (int) m.getDatos();
+					System.out.println("vamos a hablar por el puerto: " + port);
+					Cliente.getFile(port);
 				}
 				else if(m.getTipo().equals("MENSAJE_CONFIRMACION_DESCONEXION")){
 					//imprimir adios por standard output
@@ -89,6 +92,7 @@ public class OyenteServidor extends Thread{
 	public void requestFile(String f){
 		try{
 			oos.writeObject(new Mensaje("MENSAJE_PEDIR_FICHERO", f));
+			//requested_file = f;
 			//outputStream.flush();
 		}catch(IOException e){
 			e.printStackTrace();

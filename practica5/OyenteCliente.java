@@ -63,10 +63,14 @@ public class OyenteCliente extends Thread{
 					String owner = serv.getOwner(archivo);
 					System.out.println("Buscando el archivo " + archivo + " en el sistema...el propietario es: " + owner);
 					if(owner != null) {
+						int port = serv.getNextPort();
 						ObjectOutputStream fout2 = serv.get_oos_de_usuario(owner);
 						//envio mensaje MENSAJE_EMITIR_FICHERO por fout2
-						fout2.writeObject(new Mensaje("MENSAJE_EMITIR_FICHERO", serv.getNextPort()));
-					}					
+						fout2.writeObject(new Mensaje("MENSAJE_EMITIR_FICHERO", port));
+						
+						oos.writeObject(new Mensaje("MENSAJE_PREPARADO_SERVIDORCLIENTE", port));
+					}		
+					
 				}
 				else if( m.getTipo().equals("MENSAJE_PREPARADO_CLIENTESERVIDOR")){
 					//buscar fout1 (flujo del cliente al que hay que enviar la informacion)
