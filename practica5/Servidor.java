@@ -9,8 +9,10 @@ public class Servidor{
 	private static ArrayList<String> users;
 	private static String PORT;
 	static String filename;
-	private static int nextPort;
+	private static int NEXT_PORT;
 	private static HashMap<String, ArrayList<String>> ficheros_de_usuario;
+	private static HashMap<String, ObjectOutputStream> oos_de_usuarios;
+	private static HashMap<String, ObjectInputStream> ois_de_usuarios;
 	
 	public static void main(String[] args) throws IOException{
 		
@@ -18,35 +20,13 @@ public class Servidor{
 		
 		users = new ArrayList<String>();
 		ficheros_de_usuario = new HashMap<String, ArrayList<String>>();
-		//TODO: Crear los monitores para asegurar concurrencia:
-		//TODO: MonitorDelSocket mSocket = new MonitorDelSocket();
-		//TODO: MonitorDeArchivos mArchivos = new MonitorDeArchivos();
-
-		try {
-			/*
-			File archivo = new File ("C:\\users.txt");
-			FileReader fr = new FileReader (archivo);
-			BufferedReader br = new BufferedReader(fr);
-			String linea;
-			
-			
-			
-			while((linea=br.readLine())!=null) {
-				users.add(linea);
-			}
-			
-			fr.close();
-			*/
-			
-		}catch(Exception e){
-	         e.printStackTrace();
-	     
-	         
-		}
+		oos_de_usuarios = new HashMap<String, ObjectOutputStream>();
+		ois_de_usuarios = new HashMap<String, ObjectInputStream>();
 
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println(" En que puerto deberia escuchar? " );
 		PORT = keyboard.nextLine(); 
+		NEXT_PORT = Integer.parseInt(PORT) + 1;
 		
 		ServerSocket listener = new ServerSocket(Integer.parseInt(PORT));
 
@@ -64,13 +44,15 @@ public class Servidor{
 		}
 	}
 	
-	public static ArrayList<String> getUsers() {
+	public ArrayList<String> getUsers() {
 		return users;
 	}
 	
-	public static void addUser(String s) {
+	public void addUser(String s, ObjectInputStream ois, ObjectOutputStream oos) {
 		System.out.println("meto a " + s + " en la lista de usuarios");
 		users.add(s);
+		oos_de_usuarios.put(s, oos);
+		ois_de_usuarios.put(s, ois);
 	}
 
 	public void deleteUser(String s) {
@@ -88,14 +70,31 @@ public class Servidor{
 
 	public String getOwner(String archivo) {
 		// TODO Auto-generated method stub
+		// busca en la estructura de datos, de quien es un determinado archivo
 		for(Entry<String, ArrayList<String>> entry: ficheros_de_usuario.entrySet()) {
 			ArrayList<String> l = entry.getValue();
 			for(String s: l) {
 				if(s.equals(archivo)) {
+					
 					return entry.getKey();
 				}
 			}
 		}
 		return null;
+	}
+	
+	public int getNextPort() {
+		//devuelvo NEXT_PORT pero tambien le sumo 1 
+		int tmp = NEXT_PORT;
+		NEXT_PORT = NEXT_PORT + 1;
+		return tmp;
+	}
+	
+	public ObjectOutputStream get_oos_de_usuario(String s) {
+		return oos_de_usuarios.get(s);
+	}
+	
+	public ObjectInputStream get_ois_de_usuario(String s) {
+		return ois_de_usuarios.get(s);
 	}
 }

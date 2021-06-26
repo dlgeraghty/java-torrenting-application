@@ -43,6 +43,14 @@ public class OyenteServidor extends Thread{
 					//(nos llega nombre de cliente C1 e informacion pedida 3)
 					//enviar MENSAJE_PREPARADO_CIENTESERVIDOR
 					//crear proceso EMISOR y esperar en accept la conexion
+					int port = (int) m.getDatos();
+					System.out.println("el puerto por el que nos vamos a comunicar, es: " + port);
+					ServerSocket ss = new ServerSocket(port);
+					while(true) {
+						Socket s = ss.accept();
+						(new Emisor(s)).start();
+					}
+					
 				}
 				else if(m.getTipo().equals("MENSAJE_PREPARADO_SERVIDORCLIENTE")){
 					//imprimir adios por standard output
@@ -113,5 +121,7 @@ public class OyenteServidor extends Thread{
 		}
 		
 	}
+	
+	
 }
 

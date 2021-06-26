@@ -37,7 +37,7 @@ public class OyenteCliente extends Thread{
 				Mensaje m = (Mensaje) this.ois.readObject();
 				if(m.getTipo().equals("MENSAJE_CONEXION")){
 					//guardar informacion del usuario
-					serv.addUser((String) m.getDatos());
+					serv.addUser((String) m.getDatos(), ois, oos);
 					//envio mensaje confirmacion conexion fout
 					System.out.println("Estableciendo conexion...");
 					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_CONEXION"));
@@ -47,13 +47,8 @@ public class OyenteCliente extends Thread{
 				else if( m.getTipo().equals("MENSAJE_LISTA_USUARIOS")){
 					//crear un mensaje con la informacion de usuarios en sistema
 					//envio mensaje confirmacion lista usuarios fout
-					
-					
 					System.out.println("Enviando lista de usuarios conectados");
-					
-					
 					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_LISTA_USUARIOS", serv.getUsers()));
-					
 				}
 				else if( m.getTipo().equals("MENSAJE_CERRAR_CONEXION")){
 					//eliminar inforacion del usuario
@@ -64,11 +59,14 @@ public class OyenteCliente extends Thread{
 				}
 				else if( m.getTipo().equals("MENSAJE_PEDIR_FICHERO")){
 					//buscar usuario que contiene el fichero y obtener fout2
-					//envio mensaje MENSAJE_EMITIR_FICHERO por fout2
 					String archivo = m.getDatos().toString();
 					String owner = serv.getOwner(archivo);
 					System.out.println("Buscando el archivo " + archivo + " en el sistema...el propietario es: " + owner);
-					
+					if(owner != null) {
+						ObjectOutputStream fout2 = serv.get_oos_de_usuario(owner);
+						//envio mensaje MENSAJE_EMITIR_FICHERO por fout2
+						fout2.writeObject(new Mensaje("MENSAJE_EMITIR_FICHERO", serv.getNextPort()));
+					}					
 				}
 				else if( m.getTipo().equals("MENSAJE_PREPARADO_CLIENTESERVIDOR")){
 					//buscar fout1 (flujo del cliente al que hay que enviar la informacion)
@@ -79,9 +77,7 @@ public class OyenteCliente extends Thread{
 					HashMap ficheros = (HashMap) m.getDatos();
 					//System.out.println(ficheros);
 					serv.setUserFiles(ficheros);
-					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_INICIALIZAR_FICHEROS"));
-
-					
+					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_INICIALIZAR_FICHEROS"));					
 				}
 			
 
