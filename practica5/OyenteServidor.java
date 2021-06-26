@@ -77,7 +77,7 @@ public class OyenteServidor extends Thread{
 	};
 	public void requestFile(String f){
 		try{
-			oos.writeObject(new Mensaje("MENSAJE_PEDIR_FICHERO"));
+			oos.writeObject(new Mensaje("MENSAJE_PEDIR_FICHERO", f));
 			//outputStream.flush();
 		}catch(IOException e){
 			e.printStackTrace();
@@ -99,6 +99,16 @@ public class OyenteServidor extends Thread{
 		}catch(IOException e){
 			e.printStackTrace();
 		}
+	}
+
+	public void setFiles(HashMap<String, ArrayList<String>> ficheros_de_usuario) {
+		try{
+			oos.writeObject(new Mensaje("MENSAJE_INICIALIZAR_FICHEROS", ficheros_de_usuario));
+			//outputStream.flush();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
 	}
 }
 

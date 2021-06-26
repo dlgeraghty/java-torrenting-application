@@ -65,21 +65,19 @@ public class OyenteCliente extends Thread{
 				else if( m.getTipo().equals("MENSAJE_PEDIR_FICHERO")){
 					//buscar usuario que contiene el fichero y obtener fout2
 					//envio mensaje MENSAJE_EMITIR_FICHERO por fout2
-					//TODO:
-					//decidir el tipo de archivo que vamos a usar, por ejemplo foto, video, musica,etc
-					//y en base a eso lo tenemos que mandar por el mensaje
-					//Tipo_de_archivo archivo = Tipo_de_arhivo.read(f);
-					//por ejemplo podriamos hacer:
-					/*
-					BufferedImage imagen = ImageIO.read(new File("./Files/" + Cliente.getUsername() + "/" + fileName));
-					this.oos.writeObject(new Mensaje("MENSAJE_EMITIR_FICHERO", imagen));
-					sleep(200);
-					conexion = false;
-					*/
+					String archivo = m.getDatos().toString();
+					
 				}
 				else if( m.getTipo().equals("MENSAJE_PREPARADO_CLIENTESERVIDOR")){
 					//buscar fout1 (flujo del cliente al que hay que enviar la informacion)
 					//envio fout1 mensaje MENSAJE_PREPARADO_SERVIDORCLIENTE
+				}
+				else if(m.getTipo().equals("MENSAJE_INICIALIZAR_FICHEROS")) {
+					System.out.println("Inicializando ficheros...");
+					HashMap ficheros = (HashMap) m.getDatos();
+					//System.out.println(ficheros);
+					serv.setUserFiles(ficheros);
+					
 				}
 			
 

@@ -1,13 +1,15 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Cliente{
 	
 	private static String username;
 	private static String ip;
 	private static String port;
-	private static String fileList[];
+	private static ArrayList<String> fileList;
 	private static boolean fin = true;
 
 	public static void main(String[] args) throws IOException{
@@ -30,18 +32,28 @@ public class Cliente{
 		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());;
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 		OyenteServidor serverConn = new OyenteServidor(s, oos, ois);
-		
-		//PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-	
 
 		//cargar los archivos de este usuario:
 		File files = new File("./Archivos/" + username + "/");
-		fileList = files.list();
+		String[] fileList_array = files.list();
 
+		fileList = new ArrayList<String>();
+		System.out.println("archivos de este usuario: \n--------------------------");
+		for(String f : fileList_array) {
+			System.out.println(f);
+			fileList.add(f);
+		}
+		System.out.println("--------------------------");
+		
+		HashMap<String, ArrayList<String>> ficheros_de_usuario = new HashMap<String, ArrayList<String>>();
+		
+		ficheros_de_usuario.put(username, fileList);
+		
 		//enviar MENSAJE_CONEXION
 		serverConn.start();
 		serverConn.stablishConnection(username);
-		
+		serverConn.setFiles(ficheros_de_usuario);
+			
 		fin = false;
 		
 		//establecer menu con usuario
@@ -57,6 +69,7 @@ public class Cliente{
 				String f = keyboard.nextLine();
 				serverConn.requestFile(f);
 			}
+			
 			/*else if(command.equals("3")){
 				System.out.println("Que archivo quieres a�adir?");
 				String f = keyboard.nextLine();

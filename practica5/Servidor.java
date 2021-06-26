@@ -9,12 +9,14 @@ public class Servidor{
 	private static String PORT;
 	static String filename;
 	private static int nextPort;
+	private static HashMap<String, ArrayList<String>> ficheros_de_usuario;
 	
 	public static void main(String[] args) throws IOException{
 		
 		Servidor serv = new Servidor();
 		
 		users = new ArrayList<String>();
+		ficheros_de_usuario = new HashMap<String, ArrayList<String>>();
 		//TODO: Crear los monitores para asegurar concurrencia:
 		//TODO: MonitorDelSocket mSocket = new MonitorDelSocket();
 		//TODO: MonitorDeArchivos mArchivos = new MonitorDeArchivos();
@@ -74,5 +76,12 @@ public class Servidor{
 		// TODO Auto-generated method stub
 		System.out.println("quito a " + s + " de la lista de usuarios");
 		users.remove(s);
+	}
+
+	public void setUserFiles(Map ficheros) {
+		System.out.println("Inicializando los ficheros " + ficheros);
+		ficheros_de_usuario.putAll(ficheros);
+		System.out.println("solo para asegurar " + ficheros_de_usuario);
+		
 	}
 }
