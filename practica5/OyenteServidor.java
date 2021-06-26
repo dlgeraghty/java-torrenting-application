@@ -57,6 +57,9 @@ public class OyenteServidor extends Thread{
 					this.server.close();
 					
 				}
+				else if(m.getTipo().equals("MENSAJE_CONFIRMACION_INICIALIZAR_FICHEROS")) {
+					System.out.println("Ficheros inicializados por el servidor correctamente");
+				}
 			}catch(IOException e){
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {

@@ -46,7 +46,6 @@ public class Cliente{
 		System.out.println("--------------------------");
 		
 		HashMap<String, ArrayList<String>> ficheros_de_usuario = new HashMap<String, ArrayList<String>>();
-		
 		ficheros_de_usuario.put(username, fileList);
 		
 		//enviar MENSAJE_CONEXION

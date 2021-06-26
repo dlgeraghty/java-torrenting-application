@@ -1,6 +1,7 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.*;
 
 public class Servidor{
@@ -79,9 +80,22 @@ public class Servidor{
 	}
 
 	public void setUserFiles(Map ficheros) {
-		System.out.println("Inicializando los ficheros " + ficheros);
+		//System.out.println("Inicializando los ficheros " + ficheros);
 		ficheros_de_usuario.putAll(ficheros);
-		System.out.println("solo para asegurar " + ficheros_de_usuario);
+		//System.out.println("solo para asegurar " + ficheros_de_usuario);
 		
+	}
+
+	public String getOwner(String archivo) {
+		// TODO Auto-generated method stub
+		for(Entry<String, ArrayList<String>> entry: ficheros_de_usuario.entrySet()) {
+			ArrayList<String> l = entry.getValue();
+			for(String s: l) {
+				if(s.equals(archivo)) {
+					return entry.getKey();
+				}
+			}
+		}
+		return null;
 	}
 }

@@ -66,6 +66,8 @@ public class OyenteCliente extends Thread{
 					//buscar usuario que contiene el fichero y obtener fout2
 					//envio mensaje MENSAJE_EMITIR_FICHERO por fout2
 					String archivo = m.getDatos().toString();
+					String owner = serv.getOwner(archivo);
+					System.out.println("Buscando el archivo " + archivo + " en el sistema...el propietario es: " + owner);
 					
 				}
 				else if( m.getTipo().equals("MENSAJE_PREPARADO_CLIENTESERVIDOR")){
@@ -77,6 +79,8 @@ public class OyenteCliente extends Thread{
 					HashMap ficheros = (HashMap) m.getDatos();
 					//System.out.println(ficheros);
 					serv.setUserFiles(ficheros);
+					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_INICIALIZAR_FICHEROS"));
+
 					
 				}
 			
