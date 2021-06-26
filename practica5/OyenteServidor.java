@@ -4,29 +4,38 @@ import java.util.*;
 
 public class OyenteServidor extends Thread{
 	private Socket server;
-	private ObjectInputStream inputStream;
-	private ObjectOutputStream outputStream;
-
+	private ObjectInputStream ois;
+	private ObjectOutputStream oos;
+	
+	
 	public OyenteServidor(Socket s, ObjectOutputStream oos, ObjectInputStream ois) throws IOException{
 		this.server = s;
-		this.inputStream = ois;
-		this.outputStream = oos;
+		this.ois = ois;
+		this.oos = oos;
 	}
 
 	public void run() {
 		
 		while(true){
 			try{
-				System.out.println("casi cojo el mensaje");
-				Mensaje m = (Mensaje) this.inputStream.readObject();
-				System.out.println("Cojo");
+				
+				Mensaje m = (Mensaje) this.ois.readObject();
+	
+		
 				if(m.getTipo().equals("MENSAJE_CONFIRMACION_CONEXION")){
 					//imprimir conexion establecida por standard output
-					System.out.println("conexion establecida");
+					System.out.println("Conexion establecida");
+					Cliente.start();
 				}
 				else if(m.getTipo().equals("MENSAJE_CONFIRMACION_LISTA_USUARIOS")){
 					//imprimir lista usuarios por standard output
+					ArrayList<String> users = (ArrayList<String>) m.getDatos();
 					//Cliente.printUsers();
+					
+					System.out.println("Imprimiendo lista de usuarios: ");
+					for (String s: users) {
+						System.out.println(s);
+					}
 				}
 				else if(m.getTipo().equals("MENSAJE_EMITIR_FICHERO")){
 					//(nos llega nombre de cliente C1 e informacion pedida 3)
@@ -36,6 +45,10 @@ public class OyenteServidor extends Thread{
 				else if(m.getTipo().equals("MENSAJE_PREPARADO_SERVIDORCLIENTE")){
 					//imprimir adios por standard output
 					System.out.println("adios");
+				}
+				else if(m.getTipo().equals("MENSAJE_CONFIRMACION_DESCONEXION")){
+					//imprimir adios por standard output
+					System.out.println("Cliente " + m.getDatos() + "desconectado");
 				}
 			}catch(IOException e){
 				e.printStackTrace();
@@ -47,14 +60,35 @@ public class OyenteServidor extends Thread{
 		
 	}
 
-	public void listUsers(){};
-	public void requestFile(String f){};
-	public void closeConnection(){};
+	public void listUsers(){
+		try{
+			oos.writeObject(new Mensaje("MENSAJE_LISTA_USUARIOS"));
+			//outputStream.flush();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	};
+	public void requestFile(String f){
+		try{
+			oos.writeObject(new Mensaje("MENSAJE_PEDIR_FICHERO"));
+			//outputStream.flush();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	};
+	public void closeConnection(String s){
+		try{
+			oos.writeObject(new Mensaje("MENSAJE_CERRAR_CONEXION", s));
+			//outputStream.flush();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	};
 	public void stablishConnection(String s){
 
 		try{
-			outputStream.writeObject(new Mensaje("MENSAJE_CONEXION", s));
-			//outputStream.flush();
+			oos.writeObject(new Mensaje("MENSAJE_CONEXION", s));
+			//oos.flush();
 		}catch(IOException e){
 			e.printStackTrace();
 		}

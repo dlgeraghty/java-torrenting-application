@@ -3,12 +3,12 @@ import java.io.*;
 import java.util.*;
 
 public class Cliente{
-
+	
 	private static String username;
 	private static String ip;
 	private static String port;
 	private static String fileList[];
-	private static boolean fin = false;
+	private static boolean fin = true;
 
 	public static void main(String[] args) throws IOException{
 
@@ -42,11 +42,12 @@ public class Cliente{
 		serverConn.start();
 		//new Thread(serverConn).start();
 		serverConn.stablishConnection(username);
+		//oos.writeObject(new Mensaje("MENSAJE_CONEXION", username));
 		
-
+		while(fin);
 		//establecer menu con usuario
 		while(!fin){
-			System.out.println("Menu \n 1. Consultar lista usuarios \n 2. Pedir fichero \n 3. Salir ");
+			System.out.println("Menu \n 1. Consultar lista usuarios \n 2. Pedir fichero \n 3. Añadir fichero \n 4. Salir ");
 			String command = keyboard.nextLine();
 
 			if(command.equals("1")){
@@ -57,8 +58,14 @@ public class Cliente{
 				String f = keyboard.nextLine();
 				serverConn.requestFile(f);
 			}
-			else if(command.equals("3")){
-				serverConn.closeConnection();
+			/*else if(command.equals("3")){
+				System.out.println("Que archivo quieres añadir?");
+				String f = keyboard.nextLine();
+				fileList.ad
+			}*/
+			else if(command.equals("4")){
+				serverConn.closeConnection(username);
+				fin();
 			}
 			else{
 				System.out.println("Opcion no valida");
@@ -68,6 +75,10 @@ public class Cliente{
 		}
 
 		s.close();
+	}
+	
+	public static void start() {
+		fin = false;
 	}
 
 	public static String getUsername(){

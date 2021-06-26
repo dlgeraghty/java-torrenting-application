@@ -39,19 +39,27 @@ public class OyenteCliente extends Thread{
 					//guardar informacion del usuario
 					serv.addUser((String) m.getDatos());
 					//envio mensaje confirmacion conexion fout
-					System.out.println("envio confirmacion");
+					System.out.println("Estableciendo conexion...");
 					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_CONEXION"));
-					oos.flush();
+					System.out.println("Conexion establecida con el usuario "+ m.getDatos());
+					//oos.flush();
 				}
 				else if( m.getTipo().equals("MENSAJE_LISTA_USUARIOS")){
 					//crear un mensaje con la informacion de usuarios en sistema
 					//envio mensaje confirmacion lista usuarios fout
-					//for(OyenteCliente c: clients){
-					//	println(c.username);
-					//}
+					
+					
+					System.out.println("Enviando lista de usuarios conectados");
+					
+					
+					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_LISTA_USUARIOS", serv.getUsers()));
+					
 				}
 				else if( m.getTipo().equals("MENSAJE_CERRAR_CONEXION")){
 					//eliminar inforacion del usuario
+					serv.deleteUser((String) m.getDatos());
+					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_DESCONEXION", m.getDatos()));
+					
 					//envio mensaje confirmacion cerrar conexion fout
 				}
 				else if( m.getTipo().equals("MENSAJE_PEDIR_FICHERO")){
@@ -84,6 +92,7 @@ public class OyenteCliente extends Thread{
 		}
 		
 		try {
+			//se saleeeeeeee
 			this.oos.close();
 			this.ois.close();
 			this.client.close();

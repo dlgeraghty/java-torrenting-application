@@ -69,4 +69,9 @@ public class Servidor{
 		System.out.println("meto a " + s + " en la lista de usuarios");
 		users.add(s);
 	}
+
+	public void deleteUser(String s) {
+		// TODO Auto-generated method stub
+		users.remove(s);
+	}
 }

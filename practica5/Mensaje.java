@@ -13,7 +13,7 @@ public class Mensaje implements Serializable {
 	}
 
 	public Mensaje(String string) {
-		this.tipo = tipo;
+		this.tipo = string;
 	}
 
 	public String getTipo(){
