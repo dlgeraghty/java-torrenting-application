@@ -9,6 +9,7 @@ public class Servidor{
 	private static ArrayList<String> users;
 	private static String PORT;
 	static String filename;
+	private static Boolean fin = false;
 	private static int NEXT_PORT;
 	private static HashMap<String, ArrayList<String>> ficheros_de_usuario;
 	private static HashMap<String, ObjectOutputStream> oos_de_usuarios;
@@ -30,11 +31,11 @@ public class Servidor{
 		
 		ServerSocket listener = new ServerSocket(Integer.parseInt(PORT));
 
-		System.out.println("Servidor preparado \n Esperando a que se conecte un cliente...");
+		System.out.println("Servidor preparado \n Esperando a que se conecte un cliente... \n");
 		
 		//crear un ObjectOutputStream para pasarle al OyenteCliente
 		
-		while(true){
+		while(!fin){
 			
 			Socket client = listener.accept();
 			//TODO: Habria que pasarle los monitores tambien al OyenteCliente:
@@ -49,7 +50,7 @@ public class Servidor{
 	}
 	
 	public void addUser(String s, ObjectInputStream ois, ObjectOutputStream oos) {
-		System.out.println("meto a " + s + " en la lista de usuarios");
+		System.out.println("Meto a " + s + " en la lista de usuarios \n");
 		users.add(s);
 		oos_de_usuarios.put(s, oos);
 		ois_de_usuarios.put(s, ois);
@@ -57,7 +58,7 @@ public class Servidor{
 
 	public void deleteUser(String s) {
 		// TODO Auto-generated method stub
-		System.out.println("quito a " + s + " de la lista de usuarios");
+		System.out.println("Quito a " + s + " de la lista de usuarios \n");
 		users.remove(s);
 	}
 
@@ -96,5 +97,22 @@ public class Servidor{
 	
 	public ObjectInputStream get_ois_de_usuario(String s) {
 		return ois_de_usuarios.get(s);
+	}
+
+	
+	public void fin() {
+		// TODO Auto-generated method stub
+		fin = true;
+	}
+
+	public Object getFilesInTheSistem() {
+		String ficheros = "";
+		for (String s : users) {
+			for(String s2 : ficheros_de_usuario.get(s)) {
+				ficheros += s2 + "\n";
+			}
+		}
+		
+		return ficheros;
 	}
 }

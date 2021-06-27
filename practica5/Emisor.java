@@ -25,12 +25,12 @@ public class Emisor extends Thread{
 			try {
 				Mensaje m = (Mensaje) this.ois.readObject();
 				String fileName = (String) m.getDatos();
-				System.out.println("enviando fichero..." + fileName);
+				System.out.println("Enviando fichero..." + fileName);
 				if(m.getTipo().equals("MENSAJE_PEDIR_FICHERO")) {
-					String content = Files.readString(Paths.get("./Files" + Cliente.getUsername() + "/" + fileName));
-					System.out.println("Sending: " + content);
+					String content = Files.readString(Paths.get("./Archivos/" + Cliente.getUsername() + "/" + fileName));
+					System.out.println("Enviando contenido del archivo " + fileName + " : \n" + content + "\n");
 					//this.oos.writeObject(new Mensaje("MENSAJE_CONFIRMAR_FICHERO", content));
-					this.oos.writeObject(new Mensaje("MENSAJE_CONFIRMAR_FICHERO", "ola"));
+					this.oos.writeObject(new Mensaje("MENSAJE_CONFIRMAR_FICHERO", content));
 
 					sleep(10000);
 					

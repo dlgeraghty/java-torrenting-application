@@ -13,7 +13,7 @@ public class OyenteCliente extends Thread{
 	private Servidor serv;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
-	private ArrayList<OyenteCliente> clients;
+	//private ArrayList<OyenteCliente> clients;
 
 	public OyenteCliente(Socket clientSocket, Servidor serv) throws IOException{
 		this.client = clientSocket;
@@ -47,14 +47,20 @@ public class OyenteCliente extends Thread{
 				else if( m.getTipo().equals("MENSAJE_LISTA_USUARIOS")){
 					//crear un mensaje con la informacion de usuarios en sistema
 					//envio mensaje confirmacion lista usuarios fout
-					System.out.println("Enviando lista de usuarios conectados");
+					System.out.println("Enviando lista de usuarios conectados \n");
 					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_LISTA_USUARIOS", serv.getUsers()));
+				}
+				else if( m.getTipo().equals("MENSAJE_LISTA_FICHEROS")){
+					System.out.println("Enviando lista de ficheros disponibles en el sistema \n");
+					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_LISTA_FICHEROS", serv.getFilesInTheSistem()));
 				}
 				else if( m.getTipo().equals("MENSAJE_CERRAR_CONEXION")){
 					//eliminar inforacion del usuario
 					serv.deleteUser((String) m.getDatos());
+					conexion =  false;
 					//envio mensaje confirmacion cerrar conexion fout
 					oos.writeObject(new Mensaje("MENSAJE_CONFIRMACION_DESCONEXION", m.getDatos()));
+					System.out.println(m.getDatos() + "se ha desconectado");
 					
 				}
 				else if( m.getTipo().equals("MENSAJE_PEDIR_FICHERO")){

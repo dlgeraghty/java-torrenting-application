@@ -12,21 +12,26 @@ public class Receptor extends Thread{
 	public Receptor(Socket s, String f) throws IOException{
 		this.s = s;
 		this.fileName = f;
-		this.ois = new ObjectInputStream(s.getInputStream());
-		this.oos = new ObjectOutputStream(s.getOutputStream());
+		//this.ois = new ObjectInputStream(s.getInputStream());
+		//this.oos = new ObjectOutputStream(s.getOutputStream());
+		//System.out.println("He creadoooooo los canales receptor");
 	}
 	
 	public void run() {
 		
 		try {
 			System.out.println("Pidiendo fichero..." + fileName);
+			this.oos = new ObjectOutputStream(s.getOutputStream());
 			oos.writeObject(new Mensaje("MENSAJE_PEDIR_FICHERO", fileName));
+			this.ois = new ObjectInputStream(s.getInputStream());
+			
 			Mensaje response = (Mensaje) ois.readObject();
 			
 			if(response.getTipo().equals("MENSAJE_CONFIRMAR_FICHERO")) {
 				//leer fichero
-				String fichero = (String) response.getDatos();
-				System.out.println(fichero);
+				String content = (String) response.getDatos();
+				System.out.println("Contenido del archivo " + fileName + " :");
+				System.out.println(content);
 				
 				sleep(10000);
 				

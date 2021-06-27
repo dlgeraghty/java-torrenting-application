@@ -1,18 +1,25 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 
 public class OyenteServidor extends Thread{
 	private Socket server;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private String requested_file;
+	private static boolean lock;
 	
 	
 	public OyenteServidor(Socket s, ObjectOutputStream oos, ObjectInputStream ois) throws IOException{
 		this.server = s;
 		this.ois = ois;
 		this.oos = oos;
+		this.lock = true;
+		
 	}
 
 	public void run() {
@@ -36,32 +43,47 @@ public class OyenteServidor extends Thread{
 					//Cliente.printUsers();
 					
 					System.out.println("Imprimiendo lista de usuarios: ");
+					System.out.println("-----------------------------");
 					for (String s: users) {
 						System.out.println(s);
 					}
+					System.out.println("-----------------------------");
+				}
+				else if(m.getTipo().equals("MENSAJE_CONFIRMACION_LISTA_FICHEROS")){
+					//imprimir lista usuarios por standard output
+					
+					System.out.println("Imprimiendo ficheros disponibles en el sistema : ");
+					System.out.println("-----------------------------");
+					System.out.println( m.getDatos());
+					System.out.println("-----------------------------");
+					
 				}
 				else if(m.getTipo().equals("MENSAJE_EMITIR_FICHERO")){
 					//(nos llega nombre de cliente C1 e informacion pedida 3)
 					//enviar MENSAJE_PREPARADO_CIENTESERVIDOR
 					//crear proceso EMISOR y esperar en accept la conexion
 					int port = (int) m.getDatos();
-					System.out.println("el puerto por el que nos vamos a comunicar, es: " + port);
+					System.out.println("El puerto por el que nos vamos a comunicar, es: " + port);
 					ServerSocket ss = new ServerSocket(port);
+					//lock = false;
 					while(true) {
 						Socket s = ss.accept();
-						(new Emisor(s)).start();
+						Emisor e = new Emisor(s);
+						e.start();
 					}
 				}
 				else if(m.getTipo().equals("MENSAJE_PREPARADO_SERVIDORCLIENTE")){
 					//(llega direccion Ip y puerto del propietario de fichero)
 				    //crear proceso RECEPTOR
 					int port = (int) m.getDatos();
-					System.out.println("vamos a hablar por el puerto: " + port);
+					System.out.println("Vamos a hablar por el puerto: " + port );
+					//while(lock);
 					Cliente.getFile(port);
+					
 				}
 				else if(m.getTipo().equals("MENSAJE_CONFIRMACION_DESCONEXION")){
 					//imprimir adios por standard output
-					System.out.println("Cliente " + m.getDatos() + "desconectado");
+					System.out.println("Cliente " + m.getDatos() + " se ha desconectado correctamente");
 					conexion = false;
 					this.oos.close();
 					this.ois.close();
@@ -81,6 +103,15 @@ public class OyenteServidor extends Thread{
 		
 	}
 
+	public void listFicheros(){
+		try{
+			oos.writeObject(new Mensaje("MENSAJE_LISTA_FICHEROS"));
+			//outputStream.flush();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	};
+	
 	public void listUsers(){
 		try{
 			oos.writeObject(new Mensaje("MENSAJE_LISTA_USUARIOS"));

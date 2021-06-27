@@ -39,7 +39,7 @@ public class Cliente{
 		String[] fileList_array = files.list();
 
 		fileList = new ArrayList<String>();
-		System.out.println("archivos de este usuario: \n--------------------------");
+		System.out.println("Archivos de este usuario: \n--------------------------");
 		for(String f : fileList_array) {
 			System.out.println(f);
 			fileList.add(f);
@@ -54,11 +54,12 @@ public class Cliente{
 		serverConn.stablishConnection(username);
 		serverConn.setFiles(ficheros_de_usuario);
 			
-		fin = false;
 		
+		fin = false;
+		while(fin);
 		//establecer menu con usuario
 		while(!fin){
-			System.out.println("Menu \n 1. Consultar lista usuarios \n 2. Pedir fichero \n 3. A�adir fichero \n 4. Salir ");
+			System.out.println("\n Menu \n 1. Consultar lista usuarios \n 2. Pedir fichero \n 3. Consultar ficheros disponibles \n 4. Salir \n");
 			String command = keyboard.nextLine();
 
 			if(command.equals("1")){
@@ -69,12 +70,9 @@ public class Cliente{
 				f = keyboard.nextLine();
 				serverConn.requestFile(f);
 			}
-			
-			/*else if(command.equals("3")){
-				System.out.println("Que archivo quieres a�adir?");
-				String f = keyboard.nextLine();
-				fileList.ad
-			}*/
+			else if(command.equals("3")){
+				serverConn.listFicheros();
+			}
 			else if(command.equals("4")){
 				serverConn.closeConnection(username);
 				//esto no lo podemos hacer por que rompe el socket (hay que poner un lock esperando que termine la operacion anterior)
@@ -98,6 +96,12 @@ public class Cliente{
 		return username;
 	}
 
+	public static String getIp(){
+		return ip;
+	}
+	public static String getF(){
+		return f;
+	}
 	public static void fin(){
 		fin = true;
 	}
@@ -105,8 +109,9 @@ public class Cliente{
 	public static void getFile(int i){
 		//abrir un socket nuevo para enviar un archivo 
 		try {
-			
-			(new Receptor( new Socket(ip, i), f)).start();
+			Socket s = new Socket( ip, i);
+			Receptor r = new Receptor(s, f);
+			r.start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
